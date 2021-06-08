@@ -24,16 +24,14 @@ const limiter = rateLimit({
 });
 
 const app = express();
+app.use(requestLogger);
+
 app.use(limiter);
-
 app.use(helmet());
-
 app.use(cors(corsOptions));
-
 app.options('*', cors(corsOptions));
 
 app.use(express.json());
-app.use(requestLogger);
 
 app.use('/', route);
 

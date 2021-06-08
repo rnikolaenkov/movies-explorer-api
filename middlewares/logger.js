@@ -18,7 +18,7 @@ const requestLogger = expressWinston.logger({
 
 const errorLogger = expressWinston.errorLogger({
   transports: [
-    new winston.transports.File({ filename: `logs/${filenameErrorLog}` }),
+    new winston.transports.File({ filename: `logs/${filenameErrorLog}`, timestamp: true }),
   ],
   format: winston.format.combine(
     winston.format.timestamp(),
