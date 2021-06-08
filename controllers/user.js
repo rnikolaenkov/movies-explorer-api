@@ -5,8 +5,6 @@ const { cryptRounds, jwtSecret } = require('../config/app');
 const User = require('../models/user');
 const ConflictError = require('../errors/conflict-err');
 const BadRequestError = require('../errors/bad-request-err');
-// const InternalServerError = require('../errors/internal-server-err');
-const UnauthorizedError = require('../errors/unauthorized-err');
 const NotFoundError = require('../errors/not-found-err');
 
 const createUser = (req, res, next) => {
@@ -51,11 +49,10 @@ const getCurrentUser = (req, res, next) => {
     .then((user) => res.send({ user }))
     .catch((err) => {
       if (err.name === 'CastError') {
-        next(new NotFoundError('Пользователь по указанному _id не найден.'));
-        return;
+        return next(new NotFoundError('Пользователь по указанному _id не найден.'));
       }
 
-      next(err);
+      return next(err);
     });
 };
 
@@ -66,16 +63,19 @@ const updateUserInfo = (req, res, next) => {
   User.findByIdAndUpdate(_id, { name, email }, { new: true, runValidators: true })
     .then((user) => res.send({ user }))
     .catch((err) => {
-      if (err.name === 'ValidationError') {
-        next(new BadRequestError('Переданы некорректные данные при обновлении профиля.'));
-        return;
-      }
-      if (err.name === 'CastError') {
-        next(new NotFoundError('Пользователь по указанному _id не найден.'));
-        return;
+      if (err.name === 'MongoError' && err.code === 11000) {
+        return next(new ConflictError('При регистрации указан email, который уже существует на сервере.'));
       }
 
-      next(err);
+      if (err.name === 'ValidationError') {
+        return next(new BadRequestError('Переданы некорректные данные при обновлении профиля.'));
+      }
+
+      if (err.name === 'CastError') {
+        return next(new NotFoundError('Пользователь по указанному _id не найден.'));
+      }
+
+      return next(err);
     });
 };
 

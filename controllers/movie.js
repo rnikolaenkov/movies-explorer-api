@@ -71,7 +71,7 @@ const removeFavoriteMovie = (req, res, next) => {
         return next(new BadRequestError('Переданы некорректные данные.'));
       }
 
-      next(err);
+      return next(err);
     });
 };
 
