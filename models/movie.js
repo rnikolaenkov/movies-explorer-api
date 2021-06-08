@@ -40,7 +40,7 @@ const movieSchema = new mogoose.Schema({
     index: true,
   },
   movieId: {
-    type: String,
+    type: Number,
     required: true,
     index: true,
   },

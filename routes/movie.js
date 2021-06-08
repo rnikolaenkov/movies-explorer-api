@@ -14,7 +14,7 @@ movie.post('/', celebrate({
     image: Joi.string().required().regex(/https?:\/\/[a-z\d\-_]+\.[a-z]+/),
     trailer: Joi.string().required().regex(/https?:\/\/[a-z\d\-_]+\.[a-z]+/),
     thumbnail: Joi.string().required().regex(/https?:\/\/[a-z\d\-_]+\.[a-z]+/),
-    movieId: Joi.string().required(),
+    movieId: Joi.number().required(),
     nameRU: Joi.string().required(),
     nameEN: Joi.string().required(),
   }),
