@@ -19,6 +19,6 @@ movie.post('/', celebrate({
     nameEN: Joi.string().required(),
   }),
 }), addFavoriteMovie);
-movie.delete('/:movieId', removeFavoriteMovie);
+movie.delete('/:id', removeFavoriteMovie);
 
 module.exports = movie;

@@ -5,7 +5,7 @@ const { cryptRounds, jwtSecret } = require('../config/app');
 const User = require('../models/user');
 const ConflictError = require('../errors/conflict-err');
 const BadRequestError = require('../errors/bad-request-err');
-const InternalServerError = require('../errors/internal-server-err');
+// const InternalServerError = require('../errors/internal-server-err');
 const UnauthorizedError = require('../errors/unauthorized-err');
 const NotFoundError = require('../errors/not-found-err');
 
@@ -28,7 +28,7 @@ const createUser = (req, res, next) => {
         return next(new BadRequestError('Переданы некорректные данные при создании пользователя.'));
       }
 
-      return next(new InternalServerError('Ошибка на стороне сервера'));
+      return next(err);
     });
 };
 
@@ -43,7 +43,7 @@ const login = (req, res, next) => {
 
       res.send({ token });
     })
-    .catch((err) => next(new UnauthorizedError(err.message)));
+    .catch((err) => next(err));
 };
 
 const getCurrentUser = (req, res, next) => {
@@ -55,7 +55,7 @@ const getCurrentUser = (req, res, next) => {
         return;
       }
 
-      next(new InternalServerError('Ошибка на стороне сервера'));
+      next(err);
     });
 };
 
@@ -75,7 +75,7 @@ const updateUserInfo = (req, res, next) => {
         return;
       }
 
-      next(new InternalServerError('Ошибка на стороне сервера'));
+      next(err);
     });
 };
 
