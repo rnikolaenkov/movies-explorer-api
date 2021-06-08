@@ -8,7 +8,7 @@ const { errors } = require('celebrate');
 const route = require('./routes/route');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const error = require('./middlewares/error');
-const { serverPort, db } = require('./config/app');
+const { serverPort, db, RATE_LIMIT } = require('./config/app');
 
 const corsOptions = {
   origin: 'https://rnikolaenkov.nomoredomains.icu',
@@ -18,10 +18,7 @@ const corsOptions = {
   credentials: true,
 };
 
-const limiter = rateLimit({
-  windowMs: 15 * 60 * 1000,
-  max: 100,
-});
+const limiter = rateLimit(RATE_LIMIT);
 
 const app = express();
 app.use(requestLogger);

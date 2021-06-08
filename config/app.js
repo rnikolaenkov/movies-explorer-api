@@ -13,9 +13,15 @@ const cryptRounds = (NODE_ENV === 'dev') ? 10 : CRYPT_ROUNDS;
 const serverPort = (NODE_ENV === 'dev') ? 3001 : SERVER_PORT;
 const db = (NODE_ENV === 'dev') ? 'mongodb://localhost:27017/mestodb' : DB_URL;
 
+const RATE_LIMIT = {
+  windowMs: 15 * 60 * 1000,
+  max: 100,
+};
+
 module.exports = {
   jwtSecret,
   cryptRounds,
   serverPort,
   db,
+  RATE_LIMIT,
 };
